@@ -1,4 +1,4 @@
-package com.KinFourGUtils.utils;
+package com.kingggg.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -41,16 +41,15 @@ public class BitmapUtils {
      * @return
      */
     public static Bitmap compressImage(Bitmap image) {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         int options = 50;
-        while (baos.toByteArray().length / 1024 > 100) {
-            baos.reset();// 重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            options -= 10;// 每次都减�?10
+        while (byteArrayOutputStream.toByteArray().length / 1024 > 100) {
+            byteArrayOutputStream.reset();
+            image.compress(Bitmap.CompressFormat.JPEG, options, byteArrayOutputStream);
+            options -= 10;
         }
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        ByteArrayInputStream isBm = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
         return bitmap;
     }

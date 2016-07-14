@@ -1,4 +1,4 @@
-package com.KinFourGUtils.utils;
+package com.kingggg.utils;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -14,7 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
-import com.KinFourGUtils.bean.ContactsMemberBean;
+import com.kingggg.bean.ContactsMemberBean;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -131,7 +131,7 @@ public class PhoneUtils {
         if (intent == null) {
             return null;
         }
-        Uri originalUri = intent.getData();
+        Uri originalUri = getUri(activity, intent);
         String[] filePathColumns = {MediaStore.Images.Media.DATA};
         Cursor c = activity.getContentResolver().query(originalUri, filePathColumns, null, null, null);
         c.moveToFirst();
@@ -229,6 +229,7 @@ public class PhoneUtils {
 
     /**
      * 通过ip138网站获取外网IP
+     *
      * @return
      */
     public static String getPhoneNetworkIP() {
@@ -261,4 +262,45 @@ public class PhoneUtils {
         return null;
     }
 
+    /**
+     * 获取URI,适应4.4以上版本
+     * @param mContext
+     * @param intent
+     * @return
+     */
+    public static Uri getUri(Activity mContext, Intent intent) {
+        Uri uri = intent.getData();
+        String type = intent.getType();
+        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+            String path = uri.getEncodedPath();
+            if (path != null) {
+                path = Uri.decode(path);
+                ContentResolver cr = mContext.getContentResolver();
+                StringBuffer buff = new StringBuffer();
+                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
+                        .append("'" + path + "'").append(")");
+                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        new String[]{MediaStore.Images.ImageColumns._ID},
+                        buff.toString(), null, null);
+                int index = 0;
+                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
+                    // set _id value
+                    index = cur.getInt(index);
+                }
+                if (index == 0) {
+                    // do nothing
+                } else {
+                    Uri uri_temp = Uri
+                            .parse("content://media/external/images/media/"
+                                    + index);
+                    if (uri_temp != null) {
+                        uri = uri_temp;
+                        Log.i("urishi", uri.toString());
+                    }
+                }
+            }
+        }
+        return uri;
+    }
 }
