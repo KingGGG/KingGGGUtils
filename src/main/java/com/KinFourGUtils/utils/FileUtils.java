@@ -1,4 +1,4 @@
-package com.KinFourGUtils.utils;
+package com.kingggg.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,10 +28,10 @@ public class FileUtils {
     private static final String TAG = "FileUtils";
     private static final File parentPath = Environment.getExternalStorageDirectory();//从SD卡中得到图片根路径
     private static String storagePath = "";
-    public static final int SIZETYPE_B = 1;// 获取文件大小单位为B的double值
-    public static final int SIZETYPE_KB = 2;// 获取文件大小单位为KB的double值
-    public static final int SIZETYPE_MB = 3;// 获取文件大小单位为MB的double值
-    public static final int SIZETYPE_GB = 4;// 获取文件大小单位为GB的double值
+    public static final int SIZE_TYPE_B = 1;// 获取文件大小单位为B的double值
+    public static final int SIZE_TYPE_KB = 2;// 获取文件大小单位为KB的double值
+    public static final int SIZE_TYPE_MB = 3;// 获取文件大小单位为MB的double值
+    public static final int SIZE_TYPE_GB = 4;// 获取文件大小单位为GB的double值
     public static final String TYPE_JPG = ".jpg";
     public static final String TYPE_PNG = ".png";
     public static final String TYPE_PART = ".part";
@@ -215,16 +215,16 @@ public class FileUtils {
         DecimalFormat df = new DecimalFormat("#.00");
         double fileSizeLong = 0;
         switch (sizeType) {
-            case SIZETYPE_B:
+            case SIZE_TYPE_B:
                 fileSizeLong = Double.valueOf(df.format((double) fileS));
                 break;
-            case SIZETYPE_KB:
+            case SIZE_TYPE_KB:
                 fileSizeLong = Double.valueOf(df.format((double) fileS / 1024));
                 break;
-            case SIZETYPE_MB:
+            case SIZE_TYPE_MB:
                 fileSizeLong = Double.valueOf(df.format((double) fileS / 1048576));
                 break;
-            case SIZETYPE_GB:
+            case SIZE_TYPE_GB:
                 fileSizeLong = Double.valueOf(df
                         .format((double) fileS / 1073741824));
                 break;
@@ -392,6 +392,7 @@ public class FileUtils {
             e.printStackTrace();
             return null;
         } catch (IOException e) {
+            Log.e("Ukey",e.getMessage());
             e.printStackTrace();
             return null;
         }

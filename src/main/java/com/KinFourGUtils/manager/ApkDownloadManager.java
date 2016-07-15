@@ -35,7 +35,7 @@ public class ApkDownloadManager {
      * @param description
      * @return apkDownloadEvent id
      */
-    public long startDownload(String uri, String title, String description) {
+    public long startDownload(String uri, String title, String description, String apkName) {
         DownloadManager.Request req = new DownloadManager.Request(Uri.parse(uri));
 
         req.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
@@ -48,7 +48,7 @@ public class ApkDownloadManager {
 //        req.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "update.apk");
         //第二种
         //file:///storage/emulated/0/Download/update.apk
-        req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");
+        req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "apkName");
         //第三种 自定义文件路径
         //req.setDestinationUri()
 
@@ -128,4 +128,6 @@ public class ApkDownloadManager {
         }
         return -1;
     }
+
+
 }

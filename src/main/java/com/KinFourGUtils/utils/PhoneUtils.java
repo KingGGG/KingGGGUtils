@@ -264,6 +264,7 @@ public class PhoneUtils {
 
     /**
      * 获取URI,适应4.4以上版本
+     *
      * @param mContext
      * @param intent
      * @return
@@ -271,9 +272,9 @@ public class PhoneUtils {
     public static Uri getUri(Activity mContext, Intent intent) {
         Uri uri = intent.getData();
         String type = intent.getType();
-        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+        if (TextUtils.equals("file", uri.getScheme()) && (type.contains("image/"))) {
             String path = uri.getEncodedPath();
-            if (path != null) {
+            if (null != path) {
                 path = Uri.decode(path);
                 ContentResolver cr = mContext.getContentResolver();
                 StringBuffer buff = new StringBuffer();
@@ -285,18 +286,14 @@ public class PhoneUtils {
                 int index = 0;
                 for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
                     index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
-                    // set _id value
                     index = cur.getInt(index);
                 }
-                if (index == 0) {
-                    // do nothing
-                } else {
+                if (0 != index) {
                     Uri uri_temp = Uri
                             .parse("content://media/external/images/media/"
                                     + index);
                     if (uri_temp != null) {
                         uri = uri_temp;
-                        Log.i("urishi", uri.toString());
                     }
                 }
             }
